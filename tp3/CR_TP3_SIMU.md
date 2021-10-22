@@ -1,4 +1,3 @@
-
 # <center>Compte rendu du TP3 de simulation</center>
 
 ---
@@ -204,3 +203,5 @@ Intervale de confiance a 95%
 pi : [ 3.142400 - 0.019987; 3.142400 + 0.019987 ]
 pi : [ 3.122413 ; 3.162387 ] a 95% de confiance
 ```
+
+Réiterer l'expérience de simulation plusieurs fois n'augmente pas la précision des décimales de PI, mais permet de calculer un intervalle de confiance pour notre valeur moyenne de PI.
