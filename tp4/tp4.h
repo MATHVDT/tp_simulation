@@ -28,7 +28,8 @@ int init_mt();
 int test_mt(void);
 
 // Mes fonction tp4
-int fibo_rec(int n);
+long fibo_rec(int n);
+long fibo_rec_terminale(int n, long u_n, long u_n_1);
 
 
 

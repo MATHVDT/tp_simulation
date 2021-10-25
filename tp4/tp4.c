@@ -224,14 +224,17 @@ int test_mt(void)
 
 /*************** debut du tp4 *********************/
 
+/******* Debut question 1 *******************/
+
 /**************************************************/
 /* fibo_rec : fct fibonacci f(n)=f(n-1)+f(n-2)    */
 /*            calcul de facon recursive           */
+/*                                                */
 /* entree : un entier -> iteration n              */
 /*                                                */
-/* sortie : un entier                             */
+/* sortie : un long                               */
 /**************************************************/
-int fibo_rec(int n)
+long fibo_rec(int n)
 {
     if (n == 0 || n ==1)
         return 1;
@@ -239,14 +242,54 @@ int fibo_rec(int n)
         return fibo_rec(n-1) + fibo_rec(n-2);
 }
 
+/**************************************************/
+/* fibo_rec_terminale : fct fibonacci             */
+/*                      fonction rec terminale    */
+/*                                                */
+/* entree : un entier -> iteration n              */
+/*          un long -> u_n                        */
+/*          un long -> u_n_1                      */
+/*                                                */
+/* sortie : un long                               */
+/**************************************************/
+long  fibo_rec_terminale(int n, long u_n, long u_n_1)
+{
+    if (n == 0 || n ==1)
+        return u_n;
+    else
+        return fibo_rec_terminale(n-1, u_n+u_n_1, u_n);
+}
 
-/******* Debut question 1 *******************/
+
+/**************************************************/
+/* fibo_iter : fct fibonacci f(n)=f(n-1)+f(n-2)   */
+/*             calcul de facon iteratif           */
+/*                                                */
+/* entree : un entier -> iteration n              */
+/*                                                */
+/* sortie : un long                               */
+/**************************************************/
+long fibo_iter(int n)
+{
+    long u_n = 1;
+    long u_n_1 = 0;
+    long tmp;
+
+    for (int i = 0; i < n;++i)
+    {
+        tmp = u_n;
+        u_n = u_n + u_n_1;
+        u_n_1 = tmp;
+
+    }
+    return u_n;
+}
 
 int main()
 {
     init_mt();
     //test_mt();
-    float debut, fin;
+    clock_t debut, fin;
     int n;
 
 /*
@@ -254,16 +297,23 @@ int main()
     debut = clock();
 
     fin = clock();
-    printf("temps d'execution %.5f s pour n = %d points\n\n", (fin-debut)/1000000 , n);
+    printf("temps d'execution %lf s pour n = %d points\n\n", (double)(fin-debut)/CLOCKS_PER_SEC , n);
 */
-
-
-    n = 100;
+    n = 40;
     debut = clock();
-    printf("fibo_rec( %d ) = %d\n", n, fibo_rec(n));
+    printf("fibo_rec( %d ) = %ld\n", n, fibo_rec(n));
     fin = clock();
-    printf("temps d'execution %.5f s pour n = %d points\n\n", (fin-debut)/1000000 , n);
+    printf("temps d'execution %lf s pour n = %d points\n\n", ( double)(fin-debut)/CLOCKS_PER_SEC , n);
 
+    debut = clock();
+    printf("fibo_rec_terminale( %d ) = %ld\n", n, fibo_rec_terminale(n,1,1));
+    fin = clock();
+    printf("temps d'execution %lf s pour n = %d points\n\n", (double)(fin-debut)/CLOCKS_PER_SEC , n);
+
+    debut = clock();
+    printf("fibo_iter( %d ) = %ld\n", n, fibo_iter(n));
+    fin = clock();
+    printf("temps d'execution %lf s pour n = %d points\n\n", (double)(fin-debut)/CLOCKS_PER_SEC , n);
    
 
     return 0;
