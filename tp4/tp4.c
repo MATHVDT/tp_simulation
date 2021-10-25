@@ -48,7 +48,7 @@ ZZ2 F 2 G22
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
 */
 
-#include "tp3.h"
+#include "tp4.h"
 
 /* Period parameters */
 #define N 624
@@ -220,9 +220,24 @@ int test_mt(void)
     return 0;
 }
 
-/******************* Fin MT ********************/
+/******************** Fin MT **********************/
 
-/************** debut du tp4 *******************/
+/*************** debut du tp4 *********************/
+
+/**************************************************/
+/* fibo_rec : fct fibonacci f(n)=f(n-1)+f(n-2)    */
+/*            calcul de facon recursive           */
+/* entree : un entier -> iteration n              */
+/*                                                */
+/* sortie : un entier                             */
+/**************************************************/
+int fibo_rec(int n)
+{
+    if (n == 0 || n ==1)
+        return 1;
+    else
+        return fibo_rec(n-1) + fibo_rec(n-2);
+}
 
 
 /******* Debut question 1 *******************/
@@ -232,14 +247,23 @@ int main()
     init_mt();
     //test_mt();
     float debut, fin;
+    int n;
 
 /*
-    n = 1000000;
+    n = 100;
     debut = clock();
 
     fin = clock();
     printf("temps d'execution %.5f s pour n = %d points\n\n", (fin-debut)/1000000 , n);
 */
+
+
+    n = 100;
+    debut = clock();
+    printf("fibo_rec( %d ) = %d\n", n, fibo_rec(n));
+    fin = clock();
+    printf("temps d'execution %.5f s pour n = %d points\n\n", (fin-debut)/1000000 , n);
+
    
 
     return 0;

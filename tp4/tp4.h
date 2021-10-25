@@ -7,7 +7,7 @@
 #include <time.h>
 
 /*
-gcc tp3.c -o prog -lm
+gcc tp4.c -o prog -lm
 option -O2  pour optimiser 
 */
 /*
@@ -28,6 +28,7 @@ int init_mt();
 int test_mt(void);
 
 // Mes fonction tp4
+int fibo_rec(int n);
 
 
 
