@@ -1,6 +1,6 @@
 /* 
 TP Simulation
-Lab # 3Monte Carlo Simulation & Confidence Intervals
+Lab # 4a–A more realistic population growth 
 
 VILLEDIEU DE TORCY Mathieu
 ZZ2 F 2 G22
@@ -220,9 +220,12 @@ int test_mt(void)
     return 0;
 }
 
-/************************ Fin MT *************************************/
+/******************* Fin MT ********************/
 
-/********************* debut du tp4 **********************************/
+/************** debut du tp4 *******************/
+
+
+/******* Debut question 1 *******************/
 
 int main()
 {
