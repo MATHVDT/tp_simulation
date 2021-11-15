@@ -197,6 +197,7 @@ int init_mt()
 {
     unsigned long init[4] = {0x123, 0x234, 0x345, 0x456}, length = 4;
     init_by_array(init, length);
+    return 0;
 }
 
 int test_mt(void)
