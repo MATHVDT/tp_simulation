@@ -10,5 +10,6 @@ ZZ2 F 2 G22
 
 int main()
 {
-    return 0;
+
+        return 0;
 }

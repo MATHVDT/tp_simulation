@@ -9,8 +9,10 @@ ZZ2 F 2 G22
 #ifndef RABBIT_SIMU_H
 #define RABBIT_SIMU_H
 
-type enum Sexe { male,
-                 femelle
+enum Sexe
+{
+    male,
+    femelle
 };
 
 typedef struct lapin
@@ -19,5 +21,15 @@ typedef struct lapin
     Sexe sexe;
 
 } lapin_t;
+
+type struct infoPop
+{
+    int nbMale;
+    int nbFemelle;
+    int nbAdulte;
+    int nbBebe;
+    int nbTotal;
+
+} infoPop_t;
 
 #endif
