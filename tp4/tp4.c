@@ -236,10 +236,10 @@ int test_mt(void)
 /**************************************************/
 long fibo_rec(int n)
 {
-    if (n == 0 || n ==1)
+    if (n == 0 || n == 1)
         return 1;
     else
-        return fibo_rec(n-1) + fibo_rec(n-2);
+        return fibo_rec(n - 1) + fibo_rec(n - 2);
 }
 
 /**************************************************/
@@ -252,14 +252,13 @@ long fibo_rec(int n)
 /*                                                */
 /* sortie : un long                               */
 /**************************************************/
-long  fibo_rec_terminale(int n, long u_n, long u_n_1)
+long fibo_rec_terminale(int n, long u_n, long u_n_1)
 {
-    if (n == 0 || n ==1)
+    if (n == 0 || n == 1)
         return u_n;
     else
-        return fibo_rec_terminale(n-1, u_n+u_n_1, u_n);
+        return fibo_rec_terminale(n - 1, u_n + u_n_1, u_n);
 }
-
 
 /**************************************************/
 /* fibo_iter : fct fibonacci f(n)=f(n-1)+f(n-2)   */
@@ -275,16 +274,16 @@ long fibo_iter(int n)
     long u_n_1 = 0;
     long tmp;
 
-    for (int i = 0; i < n;++i)
+    for (int i = 0; i < n; ++i)
     {
         tmp = u_n;
         u_n = u_n + u_n_1;
         u_n_1 = tmp;
-
     }
     return u_n;
 }
 
+/*
 int main()
 {
     init_mt();
@@ -292,13 +291,12 @@ int main()
     clock_t debut, fin;
     int n;
 
-/*
     n = 100;
     debut = clock();
 
     fin = clock();
     printf("temps d'execution %lf s pour n = %d points\n\n", (double)(fin-debut)/CLOCKS_PER_SEC , n);
-*/
+
     n = 40;
     debut = clock();
     printf("fibo_rec( %d ) = %ld\n", n, fibo_rec(n));
@@ -318,6 +316,7 @@ int main()
 
     return 0;
 }
+*/
 
 /*
 gcc tp4.c -o prog -lm
