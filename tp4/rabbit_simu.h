@@ -28,9 +28,11 @@ typedef struct lapin
 
 typedef struct infoPop
 {
+    int nbMale;
     int nbMaleAdulte;
     int nbMaleBebe;
 
+    int nbFemelle;
     int nbFemelleAdulte;
     int nbFemelleBebe;
 
@@ -50,5 +52,7 @@ typedef struct population
 
 void initPopulation();
 lapin_t *creerLapin(enum Sexe inSexe);
+
+int maturite(lapin_t *lapin);
 
 #endif
