@@ -1,9 +1,9 @@
 /* 
 TP Simulation
-Lab # 3Monte Carlo Simulation & Confidence Intervals
+Lab #3 Monte Carlo Simulation & Confidence Intervals
 
 VILLEDIEU DE TORCY Mathieu
-ZZ2 F 2 G22
+ZZ2 F2 G22
 */
 /* 
    A C-program for MT19937, with initialization improved 2002/1/26.
