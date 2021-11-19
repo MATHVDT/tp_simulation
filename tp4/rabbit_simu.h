@@ -52,4 +52,9 @@ void checkMort(population_t *pop,
                lapin_t *lapin,
                int indiceLapin);
 
+void reproduction(population_t *pop,
+                  infoPop_t *infoPop,
+                  lapin_t *lapinMale,
+                  lapin_t *lapinFemelle);
+
 #endif

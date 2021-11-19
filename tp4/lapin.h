@@ -35,4 +35,6 @@ int anniversaireLapin(lapin_t *lapin);
 
 int mortLapin(lapin_t *lapin);
 
+enum Sexe choixSexe();
+
 #endif

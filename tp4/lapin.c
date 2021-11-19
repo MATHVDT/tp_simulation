@@ -27,7 +27,7 @@ enum Sexe choixSexe()
 /*                                                       */
 /* Entree : le sexe du lapin                             */
 /*                                                       */
-/* Sortie  : l'adresse du lapin cree                     */
+/* Sortie  : l'adresse du lapin cree (malloc)            */
 /*********************************************************/
 lapin_t *creerLapin(enum Sexe inSexe)
 {
@@ -184,3 +184,16 @@ void reproductionLapin(population_t *pop,
     }
 }
 */
+
+/*********************************************************/
+/*  choixSexe : Donne le sexe male(50%) ou femelle(50%)  */
+/*                                                       */
+/*  Entree : rien                                        */
+/*                                                       */
+/*  Sortie : enum Sexe : male(50%) ou femelle(50%)       */
+/*                                                       */
+/*********************************************************/
+enum Sexe choixSexe()
+{
+    return (genrand_real2() < 0.5 ? male : femelle);
+}

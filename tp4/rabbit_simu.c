@@ -159,8 +159,8 @@ void anniversaire(infoPop_t *infoPop, lapin_t *lapin)
 }
 
 /*********************************************************/
-/*  checkMort :   */
-/*                     */
+/*  checkMort : Tue le lapin s'il doit mourir et garde a */
+/*              jour les informations sur la population  */
 /*                                                       */
 /*  Entree : pop     : population de lapin               */
 /*           infoPop : info sur la population de lapin   */
@@ -188,13 +188,13 @@ void checkMort(population_t *pop,
             case male:
                 infoPop->nbMale;
                 infoPop->nbMaleAdulte;
-                break;
             case femelle:
                 infoPop->nbFemelle--;
                 infoPop->nbFemelleAdulte--;
+            default:
+                infoPop->nbAdulte--;
                 break;
             }
-            infoPop->nbAdulte--;
         }
         else
         { // Bebe
@@ -203,13 +203,13 @@ void checkMort(population_t *pop,
             case male:
                 infoPop->nbMale;
                 infoPop->nbMaleBebe;
-                break;
             case femelle:
                 infoPop->nbFemelle--;
                 infoPop->nbFemelleBebe--;
+            default:
+                infoPop->nbBebe--;
                 break;
             }
-            infoPop->nbBebe--;
         }
         infoPop->nbTotal--;
     }
@@ -225,5 +225,63 @@ void checkMort(population_t *pop,
         free(pop->femelle[indiceLapin]);
         pop->femelle[indiceLapin] = pop->femelle[infoPop->nbMale];
         break;
+    }
+}
+
+/*********************************************************/
+/* reproduction : Effectue la reproduction entre 2lapins */
+/*                ie : cree la portee de lapin et les    */
+/*                ajoute dans la population en tenant a  */
+/*                a jour les infos sur la population     */
+/*                                                       */
+/*  Entree : pop     : population de lapin               */
+/*           infoPop : info sur la population de lapin   */
+/*           Un lapin male                               */
+/*           Un lapin femelle                            */
+/*                                                       */
+/*  Sortie : rien                                        */
+/*                                                       */
+/*********************************************************/
+void reproduction(population_t *pop,
+                  infoPop_t *infoPop,
+                  lapin_t *lapinMale,
+                  lapin_t *lapinFemelle)
+{
+
+    // Verification maturite des lapins
+    // Normalement deja verifier avant
+    if (!maturite(lapinMale) || !maturite(lapinFemelle))
+    {
+        printf("Lapin non mature, on devrait pas entrer dans la focntion reproduction !\n");
+    }
+
+    // Donne le nombre de bebe pour la portee
+    // int nbBebesPortee = portee(lapinFemelle, lapinMale);
+    int nbBebesPortee = 3;
+    lapin_t *lapinBebe;
+    enum Sexe sexeLapinBebe;
+
+    // Creation de la portee de lapin
+    // Et maintient a jour des infos sur la pop
+    for (int k = 0; k < nbBebesPortee; k++)
+    {
+        sexeLapinBebe = choixSexe();
+        lapinBebe = creerLapin(sexeLapinBebe);
+
+        switch (sexeLapinBebe)
+        {
+        case male:
+            pop->male[infoPop->nbMale] = lapinBebe;
+            infoPop->nbMale++;
+            infoPop->nbMaleBebe++;
+        case femelle:
+            pop->femelle[infoPop->nbFemelle] = lapinBebe;
+            infoPop->nbFemelle++;
+            infoPop->nbFemelleBebe++;
+        default:
+            infoPop->nbBebe++;
+            infoPop->nbTotal++;
+            break;
+        }
     }
 }
