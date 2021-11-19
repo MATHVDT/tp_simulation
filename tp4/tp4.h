@@ -27,10 +27,14 @@ double genrand_res53(void);
 int init_mt();
 int test_mt(void);
 
+// Generation de loi aleatoire
+
+double uniform(double a, double b);
+double negExp(double mean);
+void box_muller(int n);
+
 // Mes fonction tp4
 long fibo_rec(int n);
 long fibo_rec_terminale(int n, long u_n, long u_n_1);
-
-
 
 #endif

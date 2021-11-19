@@ -2,23 +2,16 @@
 #include "lapin.h"
 
 /*********************************************************/
-/* choixSexe : Donne le sexe male ou femelle avec p=0.5  */
+/*  choixSexe : Donne le sexe male(50%) ou femelle(50%)  */
 /*                                                       */
-/* Entree : rien                                         */
+/*  Entree : rien                                        */
 /*                                                       */
-/* Sortie  : renvoie un sexe male/femelle avec p=0.5     */
+/*  Sortie : enum Sexe : male(50%) ou femelle(50%)       */
+/*                                                       */
 /*********************************************************/
 enum Sexe choixSexe()
 {
-    // double random = genrand_real2();
-    // enum Sexe sexeLapin;
-    // if (radom < 0.5)
-    //     sexeLapin = male;
-    // else
-    //     sexeLapin femelle;
-
-    // return sexeLapin;
-    return genrand_real2() < 0.5 ? male : femelle;
+    return (genrand_real2() < 0.5 ? male : femelle);
 }
 
 /*********************************************************/
@@ -185,15 +178,3 @@ void reproductionLapin(population_t *pop,
 }
 */
 
-/*********************************************************/
-/*  choixSexe : Donne le sexe male(50%) ou femelle(50%)  */
-/*                                                       */
-/*  Entree : rien                                        */
-/*                                                       */
-/*  Sortie : enum Sexe : male(50%) ou femelle(50%)       */
-/*                                                       */
-/*********************************************************/
-enum Sexe choixSexe()
-{
-    return (genrand_real2() < 0.5 ? male : femelle);
-}

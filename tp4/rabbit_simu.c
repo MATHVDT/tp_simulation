@@ -17,6 +17,8 @@ int main()
     // Initialisation de la population
     initPopulation(pop, infoPop);
 
+    box_muller(10);
+
     return 0;
 }
 

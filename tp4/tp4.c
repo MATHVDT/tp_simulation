@@ -284,6 +284,80 @@ long fibo_iter(int n)
     return u_n;
 }
 
+/*********************************************************/
+/* uniform : retourne un nombre aléatoire uniforme       */
+/*           entre deux réels a et b                     */
+/*                                                       */
+/* Entrée : deux réels a et b                            */
+/*                                                       */
+/* Sortie : un nombre aléatoire uniforme entre a et b    */
+/*                                                       */
+/*********************************************************/
+double uniform(double a, double b)
+{
+    double rand = genrand_real2();
+    return a + (b - a) * rand;
+}
+
+/*********************************************************/
+/* negExp :  f^(-1) d'une loi exponentielle négative     */
+/*           uniforme                                    */
+/*                                                       */
+/* Entrée : un real : moyenne                            */
+/*                                                       */
+/* Sortie : un nb généré aléatoirement suivant           */
+/*          une loi exp negative                         */
+/*                                                       */
+/*********************************************************/
+double negExp(double mean)
+{
+    double rand = genrand_real2();
+    double tmp = 1. - rand;
+    return (-mean * log(tmp));
+}
+
+/*********************************************************/
+/* box_muller :  methode de box et muller                */
+/*                                                       */
+/* Entrée : un entier n : nombre d'iteration de          */
+/*          l'experience                                 */
+/*                                                       */
+/* Sortie : 2 entier x1 et x2 suivant N(0,1)             */
+/*                                                       */
+/*********************************************************/
+void box_muller(int n)
+{
+    double rn1, rn2;
+    double x1, x2;
+
+    //Initialisation tableau de compteur
+    int test20bin[20];
+    for (int i = 0; i < 20; ++i)
+    {
+        test20bin[i] = 0;
+    }
+
+    for (int k = 0; k < n; k++)
+    {
+        //Calcul nombre aleatoire suivant une gaussienne N(0,1)
+        rn1 = genrand_real2();
+        rn2 = genrand_real2();
+        x1 = cos(2 * M_PI * rn2) * sqrt(-2 * log(rn1));
+        x2 = sin(2 * M_PI * rn2) * sqrt(-2 * log(rn1));
+
+        //Comptabilise les valeurs entre -1 et 1
+        if (x1 > -1 && x1 < 1)
+            test20bin[(int)((x1 + 1) * 10)]++;
+        if (x2 > -1 && x2 < 1)
+            test20bin[(int)((x2 + 1) * 10)]++;
+
+        printf("x1 = %f, et x2 = %f \n", x1, x2);
+    }
+    // printf("Box and Muller : N(0,1) \n");
+    // printf("Avec %d tirages et une precision de %d -> ", n, histo_precision);
+    // trace_histo(test20bin, 20, histo_precision);
+}
+
 /*
 int main()
 {
