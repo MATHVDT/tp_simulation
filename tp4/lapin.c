@@ -37,6 +37,7 @@ lapin_t *creerLapin(enum Sexe inSexe)
         lapin->age = 0;
         lapin->sexe = inSexe;
         initMaturite(lapin);
+        lapin->maturite = bebe;
     }
     else
     {
@@ -44,6 +45,7 @@ lapin_t *creerLapin(enum Sexe inSexe)
     }
     return lapin;
 }
+
 /*********************************************************/
 /*  initMaturite : fonction qui initialise aleatoirement */
 /*                 l'age a partir duquel un lapin devient*/
@@ -57,19 +59,19 @@ void initMaturite(lapin_t *lapin)
 
     if (random < 0.25)
     {
-        lapin->ageMmaturite = 5;
+        lapin->ageMaturite = 5;
     }
     else if (random < 0.50)
     {
-        lapin->ageMmaturite = 6;
+        lapin->ageMaturite = 6;
     }
     else if (random < 0.75)
     {
-        lapin->ageMmaturite = 7;
+        lapin->ageMaturite = 7;
     }
     else
     {
-        lapin->ageMmaturite = 8;
+        lapin->ageMaturite = 8;
     }
 }
 
@@ -84,7 +86,36 @@ void initMaturite(lapin_t *lapin)
 /*********************************************************/
 int maturite(lapin_t *lapin)
 {
-    return lapin->age >= lapin->ageMmaturite;
+    // return lapin->age >= lapin->ageMaturite;
+    return lapin->maturite == adulte;
+}
+
+/*********************************************************/
+/*  anniversaireLapin : Ajoute 1 a l'age du lapin et     */
+/*                      verifie s'il devient un adulte   */
+/*                                                       */
+/*  Entree : Un lapin                                    */
+/*                                                       */
+/*  Sortie : 0 si le lapin ne passe pas de bebe->adulte  */
+/*           1 si le lapin devient un adulte             */
+/*                                                       */
+/*********************************************************/
+int anniversaireLapin(lapin_t *lapin)
+{
+    int estDevenueAdulte = 0;
+    lapin->age++;
+
+    // Verifie s'il devient un adulte
+    if (!maturite(lapin))
+    { // Encore un bebe
+        if (lapin->age >= lapin->ageMaturite)
+        { // Devient un adulte
+            lapin->maturite = adulte;
+            estDevenueAdulte = 1;
+        }
+    }
+    // Toujours un bebe
+    return estDevenueAdulte;
 }
 
 /*********************************************************/
@@ -97,7 +128,7 @@ int maturite(lapin_t *lapin)
 /*           le lapin meurt, et -1 en cas d'erreur       */
 /*           (age en annee hors de [| 0 ; 15 |])         */
 /*********************************************************/
-void mortLapin(lapin_t *lapin)
+int mortLapin(lapin_t *lapin)
 {
     long random = genrand_real1();
     int mort = 0;
@@ -137,4 +168,19 @@ void mortLapin(lapin_t *lapin)
             mort = -1;
         }
     }
+    return mort;
 }
+
+/*
+void reproductionLapin(population_t *pop,
+                       infoPop_t *infoPop,
+                       lapin_t *male, lapin_t *femelle)
+{
+    // Verification maturite des lapins
+    // Normalement deja verifier avant
+    if (!maturite(male) || !maturite(femelle))
+    {
+        printf("Lapin non mature, on devrait pas entrer dans la focntion reproduction !\n");
+    }
+}
+*/

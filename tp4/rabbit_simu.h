@@ -38,8 +38,18 @@ typedef struct population
 
 // Prototypes de fonctions
 
-void initPopulation();
+void initPopulation(population_t *pop,
+                    infoPop_t *infoPop);
 
-void actualisationPopMois();
+void actualisationPopMois(population_t *pop,
+                          infoPop_t *infoPop);
+
+void anniversaire(infoPop_t *infoPop,
+                  lapin_t *lapin);
+
+void checkMort(population_t *pop,
+               infoPop_t *infoPop,
+               lapin_t *lapin,
+               int indiceLapin);
 
 #endif

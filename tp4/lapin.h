@@ -9,11 +9,21 @@ enum Sexe
     femelle
 };
 
+enum Maturite
+{
+    bebe,
+    adulte
+};
+
 typedef struct lapin
 {
     int age; // Age en mois
     enum Sexe sexe;
-    int ageMmaturite;
+    int ageMaturite;
+    enum Maturite maturite;
+
+    // Pour les femelles
+    int nbPortees;
 
 } lapin_t;
 
@@ -21,7 +31,8 @@ lapin_t *creerLapin(enum Sexe inSexe);
 
 void initMaturite(lapin_t *lapin);
 int maturite(lapin_t *lapin);
+int anniversaireLapin(lapin_t *lapin);
 
-void mortLapin(lapin_t *lapin);
+int mortLapin(lapin_t *lapin);
 
 #endif

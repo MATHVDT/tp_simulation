@@ -19,7 +19,19 @@ all: $(OBJ)
 %.o:%.c
 	@$(CC) -c $< $(CFLAGS)
 
+# prog : tp4.o rabbit_simu.o lapin.o
+# 	$(CC) tp4.o rabbit_simu.o lapin.o -o prog
 
+# tp4.o : tp4.c tp4.h
+# 	$(CC) -c tp4.c
+
+
+lapin.o : lapin.c lapin.h
+	$(CC) -c lapin.c
+
+	
+rabbit_simu.o : rabbit_simu.c rabbit_simu.h
+	$(CC) -c rabbit_simu.c
 
 clean:
 	rm *.o
