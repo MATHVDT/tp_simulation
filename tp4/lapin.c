@@ -193,7 +193,7 @@ int mortLapin(lapin_t *lapin)
 }
 
 /*********************************************************/
-/*  porteeLapin : Donne le nb de bebe sur la portee      */
+/* porteeLapin : Donne le nb de bebe sur la portee      */
 /*                suit une loi uniforme entre 3 et 6     */
 /*                                                       */
 /*  Entree : Un lapin male                               */
@@ -208,4 +208,91 @@ int porteeLapin(lapin_t *femelle,
     int portee = uniform(3, 6);
 
     return portee;
+}
+
+/*********************************************************/
+/* nbPorteesAnnee : Donne le nb de portees de l'annee    */
+/*                  qui suit une loi N(6,1)              */
+/*                                                       */
+/*  Entree : rien                                        */
+/*                                                       */
+/*  Sortie : le nb de portee qui suit N(6,1)             */
+/*                                                       */
+/*********************************************************/
+int nbPorteesAnneeLapin()
+{
+    return loiNormale(6, 1);
+}
+
+/*********************************************************/
+/* porteesAnnee : Complete le calendrier de portee d'une */
+/*                lapine, ie calcul le nb et les mois    */
+/*                                                       */
+/*  Entree : un lapin : femelle                          */
+/*                                                       */
+/*  Sortie : rien                                        */
+/*                                                       */
+/*********************************************************/
+void porteesAnneeLapin(lapin_t **p_lapin)
+{
+    // Test si lapin femelle, noramlement tj oui
+    if ((*p_lapin)->sexe == femelle)
+    {
+        int i, mois;
+
+        // Calcule le nb de portees pour l'annee
+        int nbPortee = nbPorteesAnneeLapin();
+        (*p_lapin)->nbPortees = nbPortee;
+
+        // Reset les mois ou les portees sont prevues
+        for (i = 0; i < 12; i++)
+        {
+            (*p_lapin)->moisPortees[i] = 0;
+        }
+
+        // Definie les mois des portees pour l'annee
+        while (nbPortee > 0)
+        {
+            mois = uniform(0, 11);
+            if (!(*p_lapin)->moisPortees[mois])
+            {
+                // Planifie le mois
+                (*p_lapin)->moisPortees[mois] = 1;
+                nbPortee--;
+            }
+        }
+    }
+    else
+    {
+        printf("Euh..., je ne crois pas qu'un lapin male puisse avoir une portee ?\n");
+    }
+}
+
+/*********************************************************/
+/* checkMoisPortee : Check s'il le lapin a une portee    */
+/*                   ce mois ci et decremente le nb de   */
+/*                   portees restantes                   */
+/*                                                       */
+/*  Entree : un lapin : femelle                          */
+/*                                                       */
+/*  Sortie : 1 -> la lapine a une portee ce mois ci      */
+/*           0 -> la lapine n'a pas de portee ce mois ci */
+/*                                                       */
+/*********************************************************/
+int checkMoisPortee(lapin_t *lapin,
+                    int nbMoisEcoulees)
+{
+    int mois = nbMoisEcoulees % 12; // Mois de l'annee
+    int aUnePortee = 0;
+
+    // Regarde s'il s'agit d'un mois de portee
+    if (lapin->moisPortees[mois])
+    {
+        aUnePortee = 1;
+        // Inutile, c'est si on voulait tenir a jour
+        // le nb de portees restantes
+        // (*p_lapin)->moisPortees[mois] = 0;
+        // (*p_lapin)->nbPortees--;
+    }
+    return aUnePortee;
 }

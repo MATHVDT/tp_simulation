@@ -317,45 +317,46 @@ double negExp(double mean)
 }
 
 /*********************************************************/
-/* box_muller :  methode de box et muller                */
+/* box_muller :  methode de box et muller donne un nb    */
+/*               suivant une loi Normale centre en 0 et  */
+/*               d'ecart type 1                          */
 /*                                                       */
 /* Entrée : un entier n : nombre d'iteration de          */
 /*          l'experience                                 */
 /*                                                       */
-/* Sortie : 2 entier x1 et x2 suivant N(0,1)             */
+/* Sortie : 2 entier x1 suivant N(0,1)                   */
 /*                                                       */
 /*********************************************************/
-void box_muller(int n)
+int box_muller()
 {
     double rn1, rn2;
     double x1, x2;
 
-    //Initialisation tableau de compteur
-    int test20bin[20];
-    for (int i = 0; i < 20; ++i)
-    {
-        test20bin[i] = 0;
-    }
+    //Calcul nombre aleatoire suivant une gaussienne N(0,1)
+    rn1 = genrand_real2();
+    rn2 = genrand_real2();
+    x1 = cos(2 * M_PI * rn2) * sqrt(-2 * log(rn1));
+    // x2 = sin(2 * M_PI * rn2) * sqrt(-2 * log(rn1));
 
-    for (int k = 0; k < n; k++)
-    {
-        //Calcul nombre aleatoire suivant une gaussienne N(0,1)
-        rn1 = genrand_real2();
-        rn2 = genrand_real2();
-        x1 = cos(2 * M_PI * rn2) * sqrt(-2 * log(rn1));
-        x2 = sin(2 * M_PI * rn2) * sqrt(-2 * log(rn1));
+    return x1;
+}
 
-        //Comptabilise les valeurs entre -1 et 1
-        if (x1 > -1 && x1 < 1)
-            test20bin[(int)((x1 + 1) * 10)]++;
-        if (x2 > -1 && x2 < 1)
-            test20bin[(int)((x2 + 1) * 10)]++;
-
-        printf("x1 = %f, et x2 = %f \n", x1, x2);
-    }
-    // printf("Box and Muller : N(0,1) \n");
-    // printf("Avec %d tirages et une precision de %d -> ", n, histo_precision);
-    // trace_histo(test20bin, 20, histo_precision);
+/*********************************************************/
+/* loiNormale :  Donne un nb suivant une loi normale     */
+/*               N(mu, sigma) calcule grace a box_muller */
+/*                                                       */
+/* Entrée : un entier mu    : la moyenne                 */
+/*          un entier sigma : l'ecart type               */
+/*                                                       */
+/* Sortie : 2 entier x1 suivant N(mu, sigma)             */
+/*                                                       */
+/*********************************************************/
+int loiNormale(int mu, int sigma)
+{
+    int x = box_muller();
+    x *= sigma;
+    x += mu;
+    return x;
 }
 
 /*

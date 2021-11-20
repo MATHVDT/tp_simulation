@@ -13,8 +13,9 @@ ZZ2 F 2 G22
 #include "lapin.h"
 
 #define ICI printf("\nici\n");
+// POPULATION_MAX 100_000_000
 #define POPULATION_MAX 100000000
-#define PROTECTION_JEUNE_POP 7
+#define PROTECTION_JEUNE_POP 12
 
 typedef struct infoPop
 {
@@ -50,7 +51,8 @@ void checkMort(lapin_t **p_lapin,
                int indiceLapin);
 
 void reproduction(lapin_t *lapinMale,
-                  lapin_t *lapinFemelle);
+                  lapin_t *lapinFemelle,
+                  int nbMoisEcoulees);
 
 void affichagePop();
 

@@ -105,11 +105,18 @@ void actualisationPopMois(int nbMoisEcoules)
         anniversaire(&lapinMale);
         anniversaire(&lapinFemelle);
 
+        // Definie les mois de portees
+        if (nbMoisEcoules % 12 == 0)
+        { // Premier mois de l'annee
+            porteesAnneeLapin(&lapinFemelle);
+        }
+
         // Reproduction
         if (maturite(lapinMale) && maturite(lapinFemelle))
         {
             // Reproduction du couple
-            reproduction(lapinMale, lapinFemelle);
+            reproduction(lapinMale, lapinFemelle,
+                         nbMoisEcoules);
 
             // Mort des lapins
             if (nbMoisEcoules > PROTECTION_JEUNE_POP)
@@ -294,62 +301,67 @@ void checkMort(lapin_t **p_lapin,
 /*                                                       */
 /*********************************************************/
 void reproduction(lapin_t *lapinMale,
-                  lapin_t *lapinFemelle)
+                  lapin_t *lapinFemelle,
+                  int nbMoisEcoules)
 {
 
     // Verification maturite des lapins
     // Normalement deja verifier avant
     if (!maturite(lapinMale) || !maturite(lapinFemelle))
     {
-        // printf("Lapin non mature, on devrait pas entrer dans la focntion reproduction !\n");
+        printf("Lapin non mature, on devrait pas entrer dans la focntion reproduction !\n");
     }
 
-    // Donne le nombre de bebe pour la portee
-    int nbBebesPortee = porteeLapin(lapinFemelle,
-                                    lapinMale);
-    // int nbBebesPortee = 3;
+    if (checkMoisPortee(lapinFemelle, nbMoisEcoules))
+    { // Il s'agit d'un mois ou lapine a une portee
 
-    // printf("La taille de la portee est de %d\n",nbBebesPortee);
+        // Donne le nombre de bebe pour la portee
+        int nbBebesPortee = porteeLapin(lapinFemelle,
+                                        lapinMale);
+        // int nbBebesPortee = 3;
 
-    lapin_t *lapinBebe;
-    enum Sexe sexeLapinBebe;
+        // printf("La taille de la portee est de %d\n",nbBebesPortee);
 
-    // Creation de la portee de lapin
-    // Et maintient a jour des infos sur la pop
-    for (int k = 0; k < nbBebesPortee; k++)
-    {
-        sexeLapinBebe = choixSexe();
-        lapinBebe = creerLapin(sexeLapinBebe);
+        lapin_t *lapinBebe;
+        enum Sexe sexeLapinBebe;
 
-        if (lapinBebe != NULL)
+        // Creation de la portee de lapin
+        // Et maintient a jour des infos sur la pop
+        for (int k = 0; k < nbBebesPortee; k++)
         {
-            switch (sexeLapinBebe)
+            sexeLapinBebe = choixSexe();
+            lapinBebe = creerLapin(sexeLapinBebe);
+
+            if (lapinBebe != NULL)
             {
-            case male:
-                pop.male[infoPop.nbMale] = lapinBebe;
-                infoPop.nbMale++;
-                infoPop.nbMaleBebe++;
-                break;
-            case femelle:
-                pop.femelle[infoPop.nbFemelle] = lapinBebe;
-                infoPop.nbFemelle++;
-                infoPop.nbFemelleBebe++;
-                break;
+                switch (sexeLapinBebe)
+                {
+                case male:
+                    pop.male[infoPop.nbMale] = lapinBebe;
+                    infoPop.nbMale++;
+                    infoPop.nbMaleBebe++;
+                    break;
+                case femelle:
+                    pop.femelle[infoPop.nbFemelle] = lapinBebe;
+                    infoPop.nbFemelle++;
+                    infoPop.nbFemelleBebe++;
+                    break;
+                }
+                infoPop.nbBebe++;
+                infoPop.nbTotal++;
+                if (infoPop.nbMale + 10 >= POPULATION_MAX)
+                {
+                    printf("\nPopulation de MALE trop grande pas assez de place dans le tableau\n");
+                }
+                if (infoPop.nbFemelle + 10 >= POPULATION_MAX)
+                {
+                    printf("\nPopulation de FEMELLE trop grande pas assez de place dans le tableau\n");
+                }
             }
-            infoPop.nbBebe++;
-            infoPop.nbTotal++;
-            if (infoPop.nbMale + 10 >= POPULATION_MAX)
+            else
             {
-                printf("\nPopulation de MALE trop grande pas assez de place dans le tableau\n");
+                printf("Erreur d'allocation\n");
             }
-            if (infoPop.nbFemelle + 10 >= POPULATION_MAX)
-            {
-                printf("\nPopulation de FEMELLE trop grande pas assez de place dans le tableau\n");
-            }
-        }
-        else
-        {
-            printf("Erreur d'allocation\n");
         }
     }
 }

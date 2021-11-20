@@ -24,6 +24,7 @@ typedef struct lapin
 
     // Pour les femelles
     int nbPortees;
+    int moisPortees[12];
 
 } lapin_t;
 
@@ -39,5 +40,10 @@ enum Sexe choixSexe();
 
 int porteeLapin(lapin_t *femelle,
                 lapin_t *male);
+
+int nbPorteesAnneeLapin();
+void porteesAnneeLapin(lapin_t **p_lapin);
+int checkMoisPortee(lapin_t *lapin,
+                     int nbMoisEcoulees);
 
 #endif

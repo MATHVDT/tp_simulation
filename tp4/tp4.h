@@ -31,7 +31,8 @@ int test_mt(void);
 
 double uniform(double a, double b);
 double negExp(double mean);
-void box_muller(int n);
+int box_muller();
+int loiNormale(int mu, int sigma);
 
 // Mes fonction tp4
 long fibo_rec(int n);

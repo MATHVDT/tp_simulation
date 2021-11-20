@@ -146,19 +146,17 @@ double genrand_res53(void)
 }
 /* These real versions are due to Isaku Wada, 2002/01/09 added */
 
-int box_muller(int n)
+int box_muller()
 {
     double rn1, rn2;
     double x1, x2;
 
-    for (int k = 0; k < n; k++)
-    {
-        //Calcul nombre aleatoire suivant une gaussienne N(0,1)
-        rn1 = genrand_real2();
-        rn2 = genrand_real2();
-        x1 = cos(2 * M_PI * rn2) * sqrt(-2 * log(rn1));
-        x2 = sin(2 * M_PI * rn2) * sqrt(-2 * log(rn1));
-    }
+    //Calcul nombre aleatoire suivant une gaussienne N(0,1)
+    rn1 = genrand_real2();
+    rn2 = genrand_real2();
+    x1 = cos(2 * M_PI * rn2) * sqrt(-2 * log(rn1));
+    x2 = sin(2 * M_PI * rn2) * sqrt(-2 * log(rn1));
+
     return x1;
 }
 
@@ -175,7 +173,7 @@ int main()
         tab[i] = 0;
     }
 
-    int n = 1000;
+    int n = 10000000;
     int mu = 6;
     int sigma = 1;
 
@@ -189,26 +187,27 @@ int main()
         // }
 
         som = box_muller(12);
+        printf("%d  ", som);
         som *= sigma;
         som += mu;
+        printf("%d \n", som);
 
         tab[som]++;
     }
 
     //trace
+    // for (i = 0; i < 20; i++)
+    // {
+    //     printf("\n %d  ", i);
+    //     for (int k = 0; k < tab[i] / 10; k++)
+    //     {
+    //         printf("■");
+    //     }
+    // }
+
     for (i = 0; i < 20; i++)
     {
-        printf("\n %d  ", i);
-        for (int k = 0; k < tab[i] / 10; k++)
-        {
-            printf("■");
-        }
-    }
-
-for (i = 0; i < 20; i++)
-    {
         printf("\n %d  -> %d", i, tab[i]);
-   
     }
 
     int moyenne = 0;
