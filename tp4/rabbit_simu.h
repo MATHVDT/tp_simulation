@@ -13,8 +13,8 @@ ZZ2 F 2 G22
 #include "lapin.h"
 
 #define ICI printf("\nici\n");
-#define POPULATION_MAX 10000000
-#define PROTECTION_JEUNE_POP 10
+#define POPULATION_MAX 100000000
+#define PROTECTION_JEUNE_POP 7
 
 typedef struct infoPop
 {

@@ -13,19 +13,21 @@ infoPop_t infoPop;
 
 int main()
 {
-    int nbAnnees = 4;
+    init_mt();
+
+    int nbAnnees = 5;
     int nbMois = 12 * nbAnnees;
     int i, nbMoisEcoules = 0;
     // Initialisation de la population
     initPopulation();
 
     affichagePop();
-    for (i = 0; i < nbMois; i++)
+    for (i = 1; i < nbMois; i++)
     {
         // nbMoisEcoules++;
         // printf("\nMois i = %d\n", i);
-        actualisationPopMois(0);
-        if (infoPop.nbTotal == 0)
+        actualisationPopMois(i);
+        if (infoPop.nbTotal == 0 || infoPop.nbFemelle == 0 || infoPop.nbMale == 0)
         {
             printf("\nMois d'extinction %d \n", i);
             break;
@@ -109,12 +111,25 @@ void actualisationPopMois(int nbMoisEcoules)
             // Reproduction du couple
             reproduction(lapinMale, lapinFemelle);
 
+            // Mort des lapins
+            if (nbMoisEcoules > PROTECTION_JEUNE_POP)
+            {
+                checkMort(&lapinMale, indiceMale);
+                checkMort(&lapinFemelle, indiceFemelle);
+            }
+
             // Passage au couple suivant
             indiceMale++;
             indiceFemelle++;
         }
         else // Un des deux lapins n'est pas mature
         {
+            // Mort des lapins
+            if (nbMoisEcoules > PROTECTION_JEUNE_POP)
+            {
+                checkMort(&lapinMale, indiceMale);
+                checkMort(&lapinFemelle, indiceFemelle);
+            }
             // Lapin encore un bebe
             // Passe au lapin suivant
             if (!maturite(lapinMale))
@@ -126,13 +141,6 @@ void actualisationPopMois(int nbMoisEcoules)
                 indiceFemelle++;
             }
         }
-
-        // Mort des lapins
-        if (nbMoisEcoules > PROTECTION_JEUNE_POP)
-        {
-            checkMort(&lapinMale, indiceMale);
-            checkMort(&lapinFemelle, indiceFemelle);
-        }
     }
 
     // Pour les lapins males restants
@@ -141,7 +149,9 @@ void actualisationPopMois(int nbMoisEcoules)
         lapinMale = pop.male[indiceMale];
         anniversaire(&lapinMale);
         if (nbMoisEcoules > PROTECTION_JEUNE_POP)
+        {
             checkMort(&lapinMale, indiceMale);
+        }
         indiceMale++;
     }
 
@@ -151,7 +161,9 @@ void actualisationPopMois(int nbMoisEcoules)
         lapinFemelle = pop.femelle[indiceFemelle];
         anniversaire(&lapinFemelle);
         if (nbMoisEcoules > PROTECTION_JEUNE_POP)
+        {
             checkMort(&lapinFemelle, indiceFemelle);
+        }
         indiceFemelle++;
     }
 }
@@ -255,7 +267,10 @@ void checkMort(lapin_t **p_lapin,
             break;
         case femelle:
             free(pop.femelle[indiceLapin]);
-            pop.femelle[indiceLapin] = pop.femelle[infoPop.nbMale];
+            pop.femelle[indiceLapin] = pop.femelle[infoPop.nbFemelle];
+            break;
+        default:
+            printf("gujrsdgjrdgorhgo\n");
             break;
         }
     }
@@ -294,8 +309,7 @@ void reproduction(lapin_t *lapinMale,
                                     lapinMale);
     // int nbBebesPortee = 3;
 
-    // printf("La taille de la portee est de %d\n",
-    //        nbBebesPortee);
+    // printf("La taille de la portee est de %d\n",nbBebesPortee);
 
     lapin_t *lapinBebe;
     enum Sexe sexeLapinBebe;
@@ -324,11 +338,11 @@ void reproduction(lapin_t *lapinMale,
             }
             infoPop.nbBebe++;
             infoPop.nbTotal++;
-            if (infoPop.nbAdulte + 5 >= POPULATION_MAX)
+            if (infoPop.nbMale + 10 >= POPULATION_MAX)
             {
                 printf("\nPopulation de MALE trop grande pas assez de place dans le tableau\n");
             }
-            if (infoPop.nbFemelle + 5 >= POPULATION_MAX)
+            if (infoPop.nbFemelle + 10 >= POPULATION_MAX)
             {
                 printf("\nPopulation de FEMELLE trop grande pas assez de place dans le tableau\n");
             }

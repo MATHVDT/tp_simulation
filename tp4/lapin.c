@@ -165,7 +165,7 @@ int mortLapin(lapin_t *lapin)
     if (lapin->maturite == adulte)
     {
         // mort = genrand_real2() < 0.95832 ? 0 : 1;
-        mort = genrand_real2() < 0.95832 ? 0 : 1;
+        mort = genrand_real2() < 0.95832 - lapin->age / 12 / 10 ? 0 : 1;
     }
     else
     {
