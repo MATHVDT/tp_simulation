@@ -15,7 +15,7 @@ int main()
 {
     init_mt();
 
-    int nbAnnees = 5;
+    int nbAnnees = 10;
     int nbMois = 12 * nbAnnees;
     int i, nbMoisEcoules = 0;
     // Initialisation de la population

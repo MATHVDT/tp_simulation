@@ -123,36 +123,51 @@ int anniversaireLapin(lapin_t **p_lapin)
 /*********************************************************/
 int mortLapin(lapin_t *lapin)
 {
-    long random = genrand_real1();
+    // age année -> chance survie
+    // 10 ans -> 0.5 (an) / 0.94387 (mois)
+    // 11 ans -> 0.4 (an) / 0.92648 (mois)
+    // 12 ans -> 0.3 (an) / 0.90454 (mois)
+    // 13 ans -> 0.2 (an) / 0.87449 (mois)
+    // 14 ans -> 0.1 (an) / 0.82540 (mois)
+    // 15 ans -> 0.0001 (an) / 0.46416 (mois)
+    //
+    // Adulte -> 0.6  (an) / 0.95832 (mois)
+    // Bebe   -> 0.35 (an) / 0.91623 (mois)
+
+    double random = genrand_real1();
     int mort = 0;
+
+    // printf("random mort %lf\n", random);
 
     switch (lapin->age / 12)
     {
     case 10:
-        if (random > 50)
+        if (random > 0.94387)
             mort = 1;
         break;
     case 11:
-        if (random > 40)
+        if (random > 0.92648)
             mort = 1;
         break;
     case 12:
-        if (random > 30)
+        if (random > 0.90454)
             mort = 1;
         break;
     case 13:
-        if (random > 20)
+        if (random > 0.87449)
             mort = 1;
         break;
     case 14:
-        if (random > 10)
+        if (random > 0.82540)
             mort = 1;
         break;
     case 15:
+        // if (random > 0.46416)
         mort = 1;
         break;
     default:
-        if ((maturite(lapin) && random > 35) || ((lapin->age >= 0) && (lapin->age < 10) && random > 60))
+        if ((!maturite(lapin) && random > 0.91623) ||
+            (maturite(lapin) && random > 0.95832))
         {
             mort = 1;
         }
@@ -162,16 +177,16 @@ int mortLapin(lapin_t *lapin)
         }
     }
 
-    if (lapin->maturite == adulte)
-    {
-        // mort = genrand_real2() < 0.95832 ? 0 : 1;
-        mort = genrand_real2() < 0.95832 - lapin->age / 12 / 10 ? 0 : 1;
-    }
-    else
-    {
-        // mort = genrand_real2() < 0.91513 ? 0 : 1;
-        mort = genrand_real2() < 0.91513 ? 0 : 1;
-    }
+    // if (lapin->maturite == adulte)
+    // {
+    //     // mort = genrand_real2() < 0.95832 ? 0 : 1;
+    //     mort = genrand_real2() < 0.95832 - lapin->age / 12 / 10 ? 0 : 1;
+    // }
+    // else
+    // {
+    //     // mort = genrand_real2() < 0.91513 ? 0 : 1;
+    //     mort = genrand_real2() < 0.91513 ? 0 : 1;
+    // }
 
     // printf("mort = %d\n", mort);
     return mort;
