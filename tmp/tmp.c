@@ -175,7 +175,7 @@ int main()
         tab[i] = 0;
     }
 
-    int n = 3000;
+    int n = 1000;
     int mu = 6;
     int sigma = 1;
 
@@ -203,6 +203,12 @@ int main()
         {
             printf("■");
         }
+    }
+
+for (i = 0; i < 20; i++)
+    {
+        printf("\n %d  -> %d", i, tab[i]);
+   
     }
 
     int moyenne = 0;
