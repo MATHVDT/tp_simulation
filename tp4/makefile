@@ -20,18 +20,18 @@ LIB=-lm
 # 	@$(CC) -c $< $(CFLAGS)
 
 prog : tp4.o rabbit_simu.o lapin.o
-	$(CC) tp4.o rabbit_simu.o lapin.o -o prog $(LIB)
+	$(CC) tp4.o rabbit_simu.o lapin.o -o prog $(LIB) 
 
 tp4.o : tp4.c tp4.h
-	$(CC) -c tp4.c 
+	$(CC) -c tp4.c -g
 
 
 lapin.o : lapin.c lapin.h
-	$(CC) -c lapin.c
+	$(CC) -c lapin.c -g
 
 	
 rabbit_simu.o : rabbit_simu.c rabbit_simu.h
-	$(CC) -c rabbit_simu.c
+	$(CC) -c rabbit_simu.c -g
 
 clean:
 	rm *.o

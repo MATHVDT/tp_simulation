@@ -93,17 +93,17 @@ int maturite(lapin_t *lapin)
 /*           1 si le lapin devient un adulte             */
 /*                                                       */
 /*********************************************************/
-int anniversaireLapin(lapin_t *lapin)
+int anniversaireLapin(lapin_t **p_lapin)
 {
     int estDevenueAdulte = 0;
-    lapin->age++;
+    (*p_lapin)->age++;
 
     // Verifie s'il devient un adulte
-    if (!maturite(lapin))
+    if (!maturite(*p_lapin))
     { // Encore un bebe
-        if (lapin->age >= lapin->ageMaturite)
+        if ((*p_lapin)->age >= (*p_lapin)->ageMaturite)
         { // Devient un adulte
-            lapin->maturite = adulte;
+            (*p_lapin)->maturite = adulte;
             estDevenueAdulte = 1;
         }
     }
@@ -161,12 +161,24 @@ int mortLapin(lapin_t *lapin)
             mort = -1;
         }
     }
+
+    if (lapin->maturite == adulte)
+    {
+        // mort = genrand_real2() < 0.95832 ? 0 : 1;
+        mort = genrand_real2() < 0.95832 ? 0 : 1;
+    }
+    else
+    {
+        // mort = genrand_real2() < 0.91513 ? 0 : 1;
+        mort = genrand_real2() < 0.91513 ? 0 : 1;
+    }
+
+    // printf("mort = %d\n", mort);
     return mort;
 }
 
-
 /*********************************************************/
-/*  porteeLapin : Donne le nb de bebe sur la porte       */
+/*  porteeLapin : Donne le nb de bebe sur la portee      */
 /*                suit une loi uniforme entre 3 et 6     */
 /*                                                       */
 /*  Entree : Un lapin male                               */
@@ -178,7 +190,7 @@ int mortLapin(lapin_t *lapin)
 int porteeLapin(lapin_t *femelle,
                 lapin_t *male)
 {
-    int portee = uniform(3,6);
+    int portee = uniform(3, 6);
 
     return portee;
 }

@@ -12,7 +12,9 @@ ZZ2 F 2 G22
 // #include "tp4.h"
 #include "lapin.h"
 
-#define POPULATION_MAX 1000000
+#define ICI printf("\nici\n");
+#define POPULATION_MAX 10000000
+#define PROTECTION_JEUNE_POP 10
 
 typedef struct infoPop
 {
@@ -38,25 +40,18 @@ typedef struct population
 
 // Prototypes de fonctions
 
-void initPopulation(population_t *pop,
-                    infoPop_t *infoPop);
+void initPopulation();
 
-void actualisationPopMois(population_t *pop,
-                          infoPop_t *infoPop);
+void actualisationPopMois(int nbMoisEcoules);
 
-void anniversaire(infoPop_t *infoPop,
-                  lapin_t *lapin);
+void anniversaire(lapin_t **p_lapin);
 
-void checkMort(population_t *pop,
-               infoPop_t *infoPop,
-               lapin_t *lapin,
+void checkMort(lapin_t **p_lapin,
                int indiceLapin);
 
-void reproduction(population_t *pop,
-                  infoPop_t *infoPop,
-                  lapin_t *lapinMale,
+void reproduction(lapin_t *lapinMale,
                   lapin_t *lapinFemelle);
 
-void affichagePop(infoPop_t *infoPop);
+void affichagePop();
 
 #endif

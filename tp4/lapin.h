@@ -31,7 +31,7 @@ lapin_t *creerLapin(enum Sexe inSexe);
 
 void initMaturite(lapin_t *lapin);
 int maturite(lapin_t *lapin);
-int anniversaireLapin(lapin_t *lapin);
+int anniversaireLapin(lapin_t **p_lapin);
 
 int mortLapin(lapin_t *lapin);
 

@@ -13,18 +13,25 @@ infoPop_t infoPop;
 
 int main()
 {
-
-    // population_t *pop;
-    // infoPop_t *infoPop;
-
+    int nbAnnees = 4;
+    int nbMois = 12 * nbAnnees;
+    int i, nbMoisEcoules = 0;
     // Initialisation de la population
-    initPopulation(pop, infoPop);
+    initPopulation();
 
-    printf("%d", infoPop.nbTotal);
-
-    // affichagePop(infoPop);
-    // actualisationPopMois(pop, infoPop);
-    // affichagePop(infoPop);
+    affichagePop();
+    for (i = 0; i < nbMois; i++)
+    {
+        // nbMoisEcoules++;
+        // printf("\nMois i = %d\n", i);
+        actualisationPopMois(0);
+        if (infoPop.nbTotal == 0)
+        {
+            printf("\nMois d'extinction %d \n", i);
+            break;
+        }
+    }
+    affichagePop();
 
     return 0;
 }
@@ -39,33 +46,33 @@ int main()
 /*                                                       */
 /* Sortie  : rien                                        */
 /*********************************************************/
-void initPopulation(population_t *pop, infoPop_t *infoPop)
+void initPopulation()
 {
     // Initialisation des espaces mémoires
-    pop = malloc(sizeof(population_t));
-    infoPop = malloc(sizeof(infoPop_t));
+    // pop = malloc(sizeof(population_t));
+    // infoPop = malloc(sizeof(infoPop_t));
 
-    if (pop == NULL)
-        printf("Erreur d'allocation de pop\n");
-    if (infoPop == NULL)
-        printf("Erreur d'allocation de infoPop\n");
+    // if (pop == NULL)
+    //     printf("Erreur d'allocation de pop\n");
+    // if (infoPop == NULL)
+    //     printf("Erreur d'allocation de infoPop\n");
 
     // Initialisation information population
-    infoPop->nbMale = 1;
-    infoPop->nbMaleAdulte = 0;
-    infoPop->nbMaleBebe = 1;
+    infoPop.nbMale = 1;
+    infoPop.nbMaleAdulte = 0;
+    infoPop.nbMaleBebe = 1;
 
-    infoPop->nbFemelle = 1;
-    infoPop->nbFemelleAdulte = 0;
-    infoPop->nbFemelleBebe = 1;
+    infoPop.nbFemelle = 1;
+    infoPop.nbFemelleAdulte = 0;
+    infoPop.nbFemelleBebe = 1;
 
-    infoPop->nbAdulte = 0;
-    infoPop->nbBebe = 2;
-    infoPop->nbTotal = 2;
+    infoPop.nbAdulte = 0;
+    infoPop.nbBebe = 2;
+    infoPop.nbTotal = 2;
 
     // Ajout de deux lapins initiaux
-    pop->male[0] = creerLapin(male);
-    pop->femelle[0] = creerLapin(femelle);
+    pop.male[0] = creerLapin(male);
+    pop.femelle[0] = creerLapin(femelle);
 }
 
 /*********************************************************/
@@ -77,40 +84,30 @@ void initPopulation(population_t *pop, infoPop_t *infoPop)
 /*                                                       */
 /* Sortie  : rien                                        */
 /*********************************************************/
-void actualisationPopMois(population_t *pop,
-                          infoPop_t *infoPop)
+void actualisationPopMois(int nbMoisEcoules)
 {
 
-    // Anniversaire
-    // age de Maturite
-    // Rerpoduction
-    // Mort
     int indiceMale = 0;
     int indiceFemelle = 0;
 
     lapin_t *lapinMale;
     lapin_t *lapinFemelle;
 
-    while (indiceMale < infoPop->nbMale &&
-           indiceFemelle < infoPop->nbFemelle)
+    while (indiceMale < infoPop.nbMale &&
+           indiceFemelle < infoPop.nbFemelle)
     {
-        lapinMale = pop->male[indiceMale];
-        lapinFemelle = pop->femelle[indiceFemelle];
+        lapinMale = pop.male[indiceMale];
+        lapinFemelle = pop.femelle[indiceFemelle];
 
         // Anniversaire des lapins
-        anniversaire(infoPop, lapinMale);
-        anniversaire(infoPop, lapinFemelle);
-
-        // Verifier maturite
-        // ... verifier dans anniversaire?
+        anniversaire(&lapinMale);
+        anniversaire(&lapinFemelle);
 
         // Reproduction
         if (maturite(lapinMale) && maturite(lapinFemelle))
         {
             // Reproduction du couple
-            // ...
-            reproduction(pop, infoPop,
-                         lapinMale, lapinFemelle);
+            reproduction(lapinMale, lapinFemelle);
 
             // Passage au couple suivant
             indiceMale++;
@@ -131,28 +128,31 @@ void actualisationPopMois(population_t *pop,
         }
 
         // Mort des lapins
-        checkMort(pop, infoPop,
-                  lapinMale, indiceMale);
-        checkMort(pop, infoPop,
-                  lapinFemelle, indiceFemelle);
+        if (nbMoisEcoules > PROTECTION_JEUNE_POP)
+        {
+            checkMort(&lapinMale, indiceMale);
+            checkMort(&lapinFemelle, indiceFemelle);
+        }
     }
 
     // Pour les lapins males restants
-    while (indiceMale < infoPop->nbMale)
+    while (indiceMale < infoPop.nbMale)
     {
-        lapinMale = pop->male[indiceMale];
-        anniversaire(infoPop, lapinMale);
-        checkMort(pop, infoPop,
-                  lapinMale, indiceMale);
+        lapinMale = pop.male[indiceMale];
+        anniversaire(&lapinMale);
+        if (nbMoisEcoules > PROTECTION_JEUNE_POP)
+            checkMort(&lapinMale, indiceMale);
+        indiceMale++;
     }
 
     // Pour les lapins femelles restantes
-    while (indiceFemelle < infoPop->nbFemelle)
+    while (indiceFemelle < infoPop.nbFemelle)
     {
-        lapinFemelle = pop->femelle[indiceFemelle];
-        anniversaire(infoPop, lapinFemelle);
-        checkMort(pop, infoPop,
-                  lapinFemelle, indiceFemelle);
+        lapinFemelle = pop.femelle[indiceFemelle];
+        anniversaire(&lapinFemelle);
+        if (nbMoisEcoules > PROTECTION_JEUNE_POP)
+            checkMort(&lapinFemelle, indiceFemelle);
+        indiceFemelle++;
     }
 }
 
@@ -166,11 +166,27 @@ void actualisationPopMois(population_t *pop,
 /*  Sortie : rien                                        */
 /*                                                       */
 /*********************************************************/
-void anniversaire(infoPop_t *infoPop, lapin_t *lapin)
+void anniversaire(lapin_t **p_lapin)
 {
-    int estDevenueAdulte = anniversaireLapin(lapin);
-    infoPop->nbAdulte += estDevenueAdulte;
-    infoPop->nbBebe -= estDevenueAdulte;
+    int estDevenueAdulte = anniversaireLapin(p_lapin);
+
+    if (estDevenueAdulte)
+    {
+        // printf("Anniversaire d'une lapin\n");
+        switch ((*p_lapin)->sexe)
+        {
+        case male:
+            infoPop.nbMaleBebe--;
+            infoPop.nbMaleAdulte++;
+            break;
+        case femelle:
+            infoPop.nbFemelleBebe--;
+            infoPop.nbFemelleAdulte++;
+            break;
+        }
+        infoPop.nbBebe--;
+        infoPop.nbAdulte++;
+    }
 }
 
 /*********************************************************/
@@ -185,61 +201,66 @@ void anniversaire(infoPop_t *infoPop, lapin_t *lapin)
 /*  Sortie : rien                                        */
 /*                                                       */
 /*********************************************************/
-void checkMort(population_t *pop,
-               infoPop_t *infoPop,
-               lapin_t *lapin,
+void checkMort(lapin_t **p_lapin,
                int indiceLapin)
 {
-    int doitMourir = mortLapin(lapin);
+    int doitMourir;
+    doitMourir = mortLapin(*p_lapin);
 
-    // Mise a jour des informations de la population
-    if (doitMourir)
+    // intervention divine pour sauver le lapin
+    // doitMourir = 0;
+
+    if (doitMourir == 1)
     {
-
-        if (maturite(lapin))
+        // printf("Un lapin doit mourrir\n");
+        // Mise a jour des informations de la population
+        if (maturite(*p_lapin))
         { // Adulte
-            switch (lapin->sexe)
+            switch ((*p_lapin)->sexe)
             {
             case male:
-                infoPop->nbMale;
-                infoPop->nbMaleAdulte;
+                infoPop.nbMale--;
+                infoPop.nbMaleAdulte--;
+                break;
             case femelle:
-                infoPop->nbFemelle--;
-                infoPop->nbFemelleAdulte--;
-            default:
-                infoPop->nbAdulte--;
+                infoPop.nbFemelle--;
+                infoPop.nbFemelleAdulte--;
                 break;
             }
+            infoPop.nbAdulte--;
         }
         else
         { // Bebe
-            switch (lapin->sexe)
+            switch ((*p_lapin)->sexe)
             {
             case male:
-                infoPop->nbMale;
-                infoPop->nbMaleBebe;
+                infoPop.nbMale--;
+                infoPop.nbMaleBebe--;
+                break;
             case femelle:
-                infoPop->nbFemelle--;
-                infoPop->nbFemelleBebe--;
-            default:
-                infoPop->nbBebe--;
+                infoPop.nbFemelle--;
+                infoPop.nbFemelleBebe--;
                 break;
             }
+            infoPop.nbBebe--;
         }
-        infoPop->nbTotal--;
-    }
+        infoPop.nbTotal--;
 
-    // Suppression du lapin, recopie du dernier dedans
-    switch (lapin->sexe)
-    {
-    case male:
-        free(pop->male[indiceLapin]);
-        pop->male[indiceLapin] = pop->male[infoPop->nbMale];
-        break;
-    case femelle:
-        free(pop->femelle[indiceLapin]);
-        pop->femelle[indiceLapin] = pop->femelle[infoPop->nbMale];
-        break;
+        // Suppression du lapin, recopie du dernier dedans
+        switch ((*p_lapin)->sexe)
+        {
+        case male:
+            free(pop.male[indiceLapin]);
+            pop.male[indiceLapin] = pop.male[infoPop.nbMale];
+            break;
+        case femelle:
+            free(pop.femelle[indiceLapin]);
+            pop.femelle[indiceLapin] = pop.femelle[infoPop.nbMale];
+            break;
+        }
+    }
+    else
+    { // Doit pas mourir
     }
 }
 
@@ -257,9 +278,7 @@ void checkMort(population_t *pop,
 /*  Sortie : rien                                        */
 /*                                                       */
 /*********************************************************/
-void reproduction(population_t *pop,
-                  infoPop_t *infoPop,
-                  lapin_t *lapinMale,
+void reproduction(lapin_t *lapinMale,
                   lapin_t *lapinFemelle)
 {
 
@@ -267,13 +286,17 @@ void reproduction(population_t *pop,
     // Normalement deja verifier avant
     if (!maturite(lapinMale) || !maturite(lapinFemelle))
     {
-        printf("Lapin non mature, on devrait pas entrer dans la focntion reproduction !\n");
+        // printf("Lapin non mature, on devrait pas entrer dans la focntion reproduction !\n");
     }
 
     // Donne le nombre de bebe pour la portee
     int nbBebesPortee = porteeLapin(lapinFemelle,
                                     lapinMale);
     // int nbBebesPortee = 3;
+
+    // printf("La taille de la portee est de %d\n",
+    //        nbBebesPortee);
+
     lapin_t *lapinBebe;
     enum Sexe sexeLapinBebe;
 
@@ -284,39 +307,58 @@ void reproduction(population_t *pop,
         sexeLapinBebe = choixSexe();
         lapinBebe = creerLapin(sexeLapinBebe);
 
-        switch (sexeLapinBebe)
+        if (lapinBebe != NULL)
         {
-        case male:
-            pop->male[infoPop->nbMale] = lapinBebe;
-            infoPop->nbMale++;
-            infoPop->nbMaleBebe++;
-        case femelle:
-            pop->femelle[infoPop->nbFemelle] = lapinBebe;
-            infoPop->nbFemelle++;
-            infoPop->nbFemelleBebe++;
-        default:
-            infoPop->nbBebe++;
-            infoPop->nbTotal++;
-            break;
+            switch (sexeLapinBebe)
+            {
+            case male:
+                pop.male[infoPop.nbMale] = lapinBebe;
+                infoPop.nbMale++;
+                infoPop.nbMaleBebe++;
+                break;
+            case femelle:
+                pop.femelle[infoPop.nbFemelle] = lapinBebe;
+                infoPop.nbFemelle++;
+                infoPop.nbFemelleBebe++;
+                break;
+            }
+            infoPop.nbBebe++;
+            infoPop.nbTotal++;
+            if (infoPop.nbAdulte + 5 >= POPULATION_MAX)
+            {
+                printf("\nPopulation de MALE trop grande pas assez de place dans le tableau\n");
+            }
+            if (infoPop.nbFemelle + 5 >= POPULATION_MAX)
+            {
+                printf("\nPopulation de FEMELLE trop grande pas assez de place dans le tableau\n");
+            }
+        }
+        else
+        {
+            printf("Erreur d'allocation\n");
         }
     }
 }
 
-void affichagePop(infoPop_t *infoPop)
+void affichagePop()
 {
-    printf("\n nbMale : %d", infoPop->nbMale);
-    printf("\n nbMaleAdulte : %d", infoPop->nbMaleAdulte);
-    printf("\n nbMaleBebe : %d", infoPop->nbMaleBebe);
+    printf("\n Affichage etat de la population\n");
+
+    printf("\n nbMale : %d", infoPop.nbMale);
+    printf("\n nbMaleAdulte : %d", infoPop.nbMaleAdulte);
+    printf("\n nbMaleBebe : %d", infoPop.nbMaleBebe);
 
     printf("\n");
 
-    printf("\n nbFemelle : %d", infoPop->nbFemelle);
-    printf("\n nbFemelleAdulte : %d", infoPop->nbFemelleAdulte);
-    printf("\n nbFemelleBebe : %d", infoPop->nbFemelleBebe);
+    printf("\n nbFemelle : %d", infoPop.nbFemelle);
+    printf("\n nbFemelleAdulte : %d", infoPop.nbFemelleAdulte);
+    printf("\n nbFemelleBebe : %d", infoPop.nbFemelleBebe);
 
-    printf("\n nbAdulte : %d", infoPop->nbAdulte);
-    printf("\n nbBebe : %d", infoPop->nbBebe);
-    printf("\n nbTotal : %d", infoPop->nbTotal);
+    printf("\n");
+
+    printf("\n nbAdulte : %d", infoPop.nbAdulte);
+    printf("\n nbBebe : %d", infoPop.nbBebe);
+    printf("\n nbTotal : %d", infoPop.nbTotal);
 
     printf("\n");
 }
