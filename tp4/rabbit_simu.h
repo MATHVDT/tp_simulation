@@ -9,7 +9,7 @@ ZZ2 F 2 G22
 #ifndef RABBIT_SIMU_H
 #define RABBIT_SIMU_H
 
-#include "tp4.h"
+// #include "tp4.h"
 #include "lapin.h"
 
 #define POPULATION_MAX 1000000
@@ -56,5 +56,7 @@ void reproduction(population_t *pop,
                   infoPop_t *infoPop,
                   lapin_t *lapinMale,
                   lapin_t *lapinFemelle);
+
+void affichagePop(infoPop_t *infoPop);
 
 #endif

@@ -12,18 +12,18 @@ endif
 
 LIB=-lm 
 
-all: $(OBJ)
-	@echo "Compilation"
-	@$(CC) -o $(EXE) $^ $(LIB)
+# all: $(OBJ)
+# 	@echo "Compilation"
+# 	@$(CC) -o $(EXE) $^ $(LIB)
 
-%.o:%.c
-	@$(CC) -c $< $(CFLAGS)
+# %.o:%.c
+# 	@$(CC) -c $< $(CFLAGS)
 
-# prog : tp4.o rabbit_simu.o lapin.o
-# 	$(CC) tp4.o rabbit_simu.o lapin.o -o prog
+prog : tp4.o rabbit_simu.o lapin.o
+	$(CC) tp4.o rabbit_simu.o lapin.o -o prog $(LIB)
 
-# tp4.o : tp4.c tp4.h
-# 	$(CC) -c tp4.c
+tp4.o : tp4.c tp4.h
+	$(CC) -c tp4.c 
 
 
 lapin.o : lapin.c lapin.h

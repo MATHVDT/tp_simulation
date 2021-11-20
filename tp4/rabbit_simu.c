@@ -8,16 +8,23 @@ ZZ2 F 2 G22
 
 #include "rabbit_simu.h"
 
+population_t pop;
+infoPop_t infoPop;
+
 int main()
 {
 
-    population_t *pop;
-    infoPop_t *infoPop;
+    // population_t *pop;
+    // infoPop_t *infoPop;
 
     // Initialisation de la population
     initPopulation(pop, infoPop);
 
-    box_muller(10);
+    printf("%d", infoPop.nbTotal);
+
+    // affichagePop(infoPop);
+    // actualisationPopMois(pop, infoPop);
+    // affichagePop(infoPop);
 
     return 0;
 }
@@ -102,6 +109,8 @@ void actualisationPopMois(population_t *pop,
         {
             // Reproduction du couple
             // ...
+            reproduction(pop, infoPop,
+                         lapinMale, lapinFemelle);
 
             // Passage au couple suivant
             indiceMale++;
@@ -122,8 +131,10 @@ void actualisationPopMois(population_t *pop,
         }
 
         // Mort des lapins
-        // checkMort(lapinMale);
-        // checkMort(lapinFemelle);
+        checkMort(pop, infoPop,
+                  lapinMale, indiceMale);
+        checkMort(pop, infoPop,
+                  lapinFemelle, indiceFemelle);
     }
 
     // Pour les lapins males restants
@@ -131,7 +142,8 @@ void actualisationPopMois(population_t *pop,
     {
         lapinMale = pop->male[indiceMale];
         anniversaire(infoPop, lapinMale);
-        // checkMort(lapinMale);
+        checkMort(pop, infoPop,
+                  lapinMale, indiceMale);
     }
 
     // Pour les lapins femelles restantes
@@ -139,7 +151,8 @@ void actualisationPopMois(population_t *pop,
     {
         lapinFemelle = pop->femelle[indiceFemelle];
         anniversaire(infoPop, lapinFemelle);
-        // checkMort(lapinFemlle);
+        checkMort(pop, infoPop,
+                  lapinFemelle, indiceFemelle);
     }
 }
 
@@ -258,8 +271,9 @@ void reproduction(population_t *pop,
     }
 
     // Donne le nombre de bebe pour la portee
-    // int nbBebesPortee = portee(lapinFemelle, lapinMale);
-    int nbBebesPortee = 3;
+    int nbBebesPortee = porteeLapin(lapinFemelle,
+                                    lapinMale);
+    // int nbBebesPortee = 3;
     lapin_t *lapinBebe;
     enum Sexe sexeLapinBebe;
 
@@ -286,4 +300,23 @@ void reproduction(population_t *pop,
             break;
         }
     }
+}
+
+void affichagePop(infoPop_t *infoPop)
+{
+    printf("\n nbMale : %d", infoPop->nbMale);
+    printf("\n nbMaleAdulte : %d", infoPop->nbMaleAdulte);
+    printf("\n nbMaleBebe : %d", infoPop->nbMaleBebe);
+
+    printf("\n");
+
+    printf("\n nbFemelle : %d", infoPop->nbFemelle);
+    printf("\n nbFemelleAdulte : %d", infoPop->nbFemelleAdulte);
+    printf("\n nbFemelleBebe : %d", infoPop->nbFemelleBebe);
+
+    printf("\n nbAdulte : %d", infoPop->nbAdulte);
+    printf("\n nbBebe : %d", infoPop->nbBebe);
+    printf("\n nbTotal : %d", infoPop->nbTotal);
+
+    printf("\n");
 }

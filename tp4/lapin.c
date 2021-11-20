@@ -164,17 +164,21 @@ int mortLapin(lapin_t *lapin)
     return mort;
 }
 
-/*
-void reproductionLapin(population_t *pop,
-                       infoPop_t *infoPop,
-                       lapin_t *male, lapin_t *femelle)
-{
-    // Verification maturite des lapins
-    // Normalement deja verifier avant
-    if (!maturite(male) || !maturite(femelle))
-    {
-        printf("Lapin non mature, on devrait pas entrer dans la focntion reproduction !\n");
-    }
-}
-*/
 
+/*********************************************************/
+/*  porteeLapin : Donne le nb de bebe sur la porte       */
+/*                suit une loi uniforme entre 3 et 6     */
+/*                                                       */
+/*  Entree : Un lapin male                               */
+/*  Entree : Un lapin femelle                            */
+/*                                                       */
+/*  Sortie : le nb de de bebe de la portee               */
+/*                                                       */
+/*********************************************************/
+int porteeLapin(lapin_t *femelle,
+                lapin_t *male)
+{
+    int portee = uniform(3,6);
+
+    return portee;
+}

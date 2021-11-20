@@ -37,4 +37,7 @@ int mortLapin(lapin_t *lapin);
 
 enum Sexe choixSexe();
 
+int porteeLapin(lapin_t *femelle,
+                lapin_t *male);
+
 #endif
