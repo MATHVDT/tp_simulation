@@ -117,7 +117,7 @@ long fibo_iter(int n)
 
 ### Comparaison
 
-Pour differentes valeurs de *n*, nous avons utiliser les différentes fonctions pour le calcul de *u<sub>n</sub>.
+Pour differentes valeurs de *n*, nous avons utiliser les différentes fonctions pour le calcul de *u<sub>n</sub>*.
 
 Pour **n = 40** : 
 
@@ -157,7 +157,9 @@ On remarque bien que `fibo_rec` n'est pas du tout efficace.
 
 La suite de Fibonacci donne une representation très simplifié de l'évolution de la population de lapins. En effet, il n'y a que des naissances de lapins et la population ne peut donc que augmenter. Cette méthode n'est donc pas la plus pratique et réaliste, mais permet de se rendre compte la vitesse de croissance de la population.
 
---- 
+<br>
+
+---
 
 ##  Simulation de population de lapins réaliste 
 
