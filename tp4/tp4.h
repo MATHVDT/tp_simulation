@@ -27,8 +27,10 @@ double genrand_res53(void);
 int init_mt();
 int test_mt(void);
 
-// Generation de loi aleatoire
+int mainTp4();
 
+
+// Generation de loi aleatoire
 double uniform(double a, double b);
 double negExp(double mean);
 int box_muller();

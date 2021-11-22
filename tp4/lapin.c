@@ -123,7 +123,7 @@ int anniversaireLapin(lapin_t **p_lapin)
 /*********************************************************/
 int mortLapin(lapin_t *lapin)
 {
-    // age année -> chance survie
+    // age année -> chance survie :
     // 10 ans -> 0.5 (an) / 0.94387 (mois)
     // 11 ans -> 0.4 (an) / 0.92648 (mois)
     // 12 ans -> 0.3 (an) / 0.90454 (mois)
@@ -131,6 +131,7 @@ int mortLapin(lapin_t *lapin)
     // 14 ans -> 0.1 (an) / 0.82540 (mois)
     // 15 ans -> 0.0001 (an) / 0.46416 (mois)
     //
+    // Age < 10 ans :
     // Adulte -> 0.6  (an) / 0.95832 (mois)
     // Bebe   -> 0.35 (an) / 0.91623 (mois)
 

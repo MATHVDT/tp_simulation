@@ -15,6 +15,8 @@ int main()
 {
     init_mt();
 
+    // mainTp4();
+
     int nbAnnees = 10;
     int nbMois = 12 * nbAnnees;
     int i, nbMoisEcoules = 0;

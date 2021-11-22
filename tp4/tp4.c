@@ -359,40 +359,35 @@ int loiNormale(int mu, int sigma)
     return x;
 }
 
-/*
-int main()
+
+int mainTp4()
 {
-    init_mt();
+    // init_mt();
     //test_mt();
     clock_t debut, fin;
     int n;
 
-    n = 100;
-    debut = clock();
 
-    fin = clock();
-    printf("temps d'execution %lf s pour n = %d points\n\n", (double)(fin-debut)/CLOCKS_PER_SEC , n);
-
-    n = 40;
+    n = 50;
     debut = clock();
     printf("fibo_rec( %d ) = %ld\n", n, fibo_rec(n));
     fin = clock();
-    printf("temps d'execution %lf s pour n = %d points\n\n", ( double)(fin-debut)/CLOCKS_PER_SEC , n);
+    printf("temps d'execution %lf s pour n = %d \n\n", ( double)(fin-debut)/CLOCKS_PER_SEC , n);
 
     debut = clock();
     printf("fibo_rec_terminale( %d ) = %ld\n", n, fibo_rec_terminale(n,1,1));
     fin = clock();
-    printf("temps d'execution %lf s pour n = %d points\n\n", (double)(fin-debut)/CLOCKS_PER_SEC , n);
+    printf("temps d'execution %lf s pour n = %d \n\n", (double)(fin-debut)/CLOCKS_PER_SEC , n);
 
     debut = clock();
     printf("fibo_iter( %d ) = %ld\n", n, fibo_iter(n));
     fin = clock();
-    printf("temps d'execution %lf s pour n = %d points\n\n", (double)(fin-debut)/CLOCKS_PER_SEC , n);
+    printf("temps d'execution %lf s pour n = %d \n\n", (double)(fin-debut)/CLOCKS_PER_SEC , n);
    
 
     return 0;
 }
-*/
+
 
 /*
 gcc tp4.c -o prog -lm
