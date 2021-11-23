@@ -10,6 +10,7 @@ ZZ2 F 2 G22
 
 population_t pop;
 infoPop_t infoPop;
+statistique_t statistique;
 
 int main()
 {
@@ -17,25 +18,40 @@ int main()
 
     // mainTp4();
 
-    int nbAnnees = 10;
+
+    int nbAnnees = 9;
     int nbMois = 12 * nbAnnees;
     int i, nbMoisEcoules = 0;
     // Initialisation de la population
     initPopulation();
+    initStatistique(nbAnnees);
 
     affichagePop();
-    for (i = 1; i < nbMois; i++)
+    for (i = 0; i < nbMois+1; i++)
     {
         // nbMoisEcoules++;
         // printf("\nMois i = %d\n", i);
         actualisationPopMois(i);
+
+        // Regarde s'il y a une extinction
         if (infoPop.nbTotal == 0 || infoPop.nbFemelle == 0 || infoPop.nbMale == 0)
         {
             printf("\nMois d'extinction %d \n", i);
             break;
         }
+
+        // Sauvegarde les stat de l'annee tout les mois 0
+        if ((i % 12) == 0)
+        {
+            saveStatistiqueAnnee(i/12);
+        }
+
+
+
     }
     affichagePop();
+
+    // affichageStatistique(nbAnnees);
 
     return 0;
 }
@@ -389,4 +405,82 @@ void affichagePop()
     printf("\n nbTotal : %d", infoPop.nbTotal);
 
     printf("\n");
+}
+
+/*********************************************************/
+/* initStatistique : Initialise les stat de la pop de    */
+/*                   lapin (malloc)                      */
+/*                                                       */
+/* Entree : nb d'annees simulees                         */
+/*                                                       */
+/* Sortie  : rien                                        */
+/*********************************************************/
+void initStatistique(int nbAnnees)
+{
+    statistique.popTotal = malloc(nbAnnees*sizeof(int));
+    if (statistique.popTotal==NULL)
+      printf("Erreur d'allocation popTotal");
+    
+
+    statistique.popMale = malloc(nbAnnees*sizeof(int));
+    if (statistique.popMale==NULL)
+      printf("Erreur d'allocation popMale");
+    
+
+    statistique.popFemelle = malloc(nbAnnees*sizeof(int));
+    if (statistique.popFemelle==NULL)
+      printf("Erreur d'allocation popFemelle");
+    
+
+    statistique.popAdulte = malloc(nbAnnees*sizeof(int));
+    if (statistique.popAdulte==NULL)
+      printf("Erreur d'allocation popAdulte");
+    
+
+    statistique.popBebe = malloc(nbAnnees*sizeof(int));
+    if (statistique.popBebe==NULL)
+      printf("Erreur d'allocation popBebe");
+    
+}
+
+/*********************************************************/
+/* saveStatistiqueAnnee : sauvegarde les donnees de pop  */
+/*                        de l'annee actuelle            */
+/*                                                       */
+/* Entree : nb d'annees simulees                         */
+/*                                                       */
+/* Sortie  : rien                                        */
+/*********************************************************/
+void saveStatistiqueAnnee(int anneeCourante)
+{
+    statistique.popTotal[anneeCourante] = infoPop.nbTotal;
+    statistique.popMale[anneeCourante] = infoPop.nbMale;
+    statistique.popFemelle[anneeCourante] = infoPop.nbFemelle;
+    statistique.popAdulte[anneeCourante] = infoPop.nbAdulte;
+    statistique.popBebe[anneeCourante] = infoPop.nbBebe;
+}
+
+void affichageStatistique(int nbAnnees)
+{
+
+    int val;
+    int unite;
+
+    printf("\n");
+
+
+
+    unite = 1000000;
+    printf("\nAffichage popTotal au cours des ans : \n");
+    for (int a = 0; a< nbAnnees+1;a++)
+    {
+        val = statistique.popTotal[a];
+          printf("%d : ", a);
+        for (int x=0;x < val/unite;x++)
+        {
+          printf("|");
+        }
+        printf("\n");
+    }
+
 }

@@ -39,9 +39,23 @@ typedef struct population
     lapin_t *femelle[POPULATION_MAX];
 } population_t;
 
+typedef struct statistique
+{
+    int * popTotal;
+    int * popMale;
+    int * popFemelle;
+    int * popAdulte;
+    int * popBebe;
+
+}statistique_t;
+
+
 // Prototypes de fonctions
 
 void initPopulation();
+void initStatistique(int nbAnnees);
+void saveStatistiqueAnnee(int anneeCourante);
+void affichageStatistique(int nbAnnees);
 
 void actualisationPopMois(int nbMoisEcoules);
 
