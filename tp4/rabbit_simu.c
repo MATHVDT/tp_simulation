@@ -19,7 +19,7 @@ int main()
     // mainTp4();
 
 
-    int nbAnnees = 9;
+    int nbAnnees = 10;
     int nbMois = 12 * nbAnnees;
     int i, nbMoisEcoules = 0;
     // Initialisation de la population
@@ -40,13 +40,11 @@ int main()
             break;
         }
 
-        // Sauvegarde les stat de l'annee tout les mois 0
-        if ((i % 12) == 0)
-        {
-            saveStatistiqueAnnee(i/12);
-        }
-
-
+        // // Sauvegarde les stat de l'annee tout les mois 0
+        // if ((i % 12) == 0)
+        // {
+        //     saveStatistiqueAnnee(i/12);
+        // }
 
     }
     affichagePop();

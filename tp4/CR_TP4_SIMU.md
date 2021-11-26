@@ -20,6 +20,7 @@
     -   Organisation du code
     -   Générateur et lois utilisées
     -   Résultats 
+    -   Pistes d'amélioration
 
 ---
 ## Introduction
@@ -34,7 +35,7 @@ Avec ce model, *u<sub>n</sub>* représente le nombre de lapins dans la populatio
 
 ---
 
-### Fibonacci récursive
+### **Fibonacci récursive**
 
 On appliquant directement la définition de la suite de Fibonacci. on définit donc une fonction récursive.
 La suite de Fibonacci croît rapidement ce qui nous oblige à utiliser des `long` pour stocker les valeurs. 
@@ -58,7 +59,7 @@ long fibo_rec(int n)
 ```
 ---
 
-### Fibonacci récursive terminale
+### **Fibonacci récursive terminale**
 
 Afin d'améliorer la fonction récursive précédente, on la transforme en fonction récursive *terminale*, ce qui limite le nombre d'appels récursifs. 
 
@@ -84,7 +85,7 @@ long fibo_rec_terminale(int n, long u_n, long u_n_1)
 
 ---
 
-### Fibonacci iérative
+### **Fibonacci iérative**
 
 On peut également transformer la fonction récursive par definition en fonction itérative beaucoup plus performante.
 
@@ -115,7 +116,7 @@ long fibo_iter(int n)
 
 ---
 
-### Comparaison
+### **Comparaison**
 
 Pour differentes valeurs de *n*, nous avons utiliser les différentes fonctions pour le calcul de *u<sub>n</sub>*.
 
@@ -153,9 +154,9 @@ On remarque bien que `fibo_rec` n'est pas du tout efficace.
 
 ---
 
-### Conclusion
+### **Conclusion**
 
-La suite de Fibonacci donne une representation très simplifié de l'évolution de la population de lapins. En effet, il n'y a que des naissances de lapins et la population ne peut donc que augmenter. Cette méthode n'est donc pas la plus pratique et réaliste, mais permet de se rendre compte la vitesse de croissance de la population.
+La suite de Fibonacci donne une représentation très simplifiée de l'évolution de la population de lapins. En effet, il n'y a que des naissances de lapins et la population ne peut donc qu'augmenter. Cette méthode n'est donc pas la plus pratique et réaliste, mais permet de se rendre compte la vitesse de croissance de la population.
 
 <br>
 
@@ -165,9 +166,6 @@ La suite de Fibonacci donne une representation très simplifié de l'évolution 
 
 ---
 
-### Principe 
-
----
 
 ### Organisation du code
 
@@ -185,6 +183,70 @@ Le fichier *tp4.c* contient les fonctions de génération de nombre aléatoire M
 Le fichier *lapin.c* contient les fonctions qui concerne les lapins directements : création/mort de lapin etc...
 
 Le fichier *rabbit_simu.c* contient les fonctions gérant la simulation, boucles principales des évènements dans un mois.
+
+Pour chaque lapin, on utilise la structure suivante, pour définir ses caractéristiques :
+```C
+typedef struct lapin
+{
+    int age; // Age en mois
+    enum Sexe sexe;
+    int ageMaturite;
+    enum Maturite maturite;
+
+    // Pour les femelles
+    int nbPortees;
+    int moisPortees[12];
+
+} lapin_t;
+```
+
+
+On utilise cette structure pour garder à jour les informations sur la population : 
+```C
+typedef struct infoPop
+{
+    int nbMale;
+    int nbMaleAdulte;
+    int nbMaleBebe;
+
+    int nbFemelle;
+    int nbFemelleAdulte;
+    int nbFemelleBebe;
+
+    int nbAdulte;
+    int nbBebe;
+    int nbTotal;
+
+} infoPop_t;
+```
+
+Les lapins de la population sont stockés dans deux tableaux pour la distinction des males et femelles :
+
+```C
+typedef struct population
+{
+    lapin_t *male[POPULATION_MAX];
+    lapin_t *femelle[POPULATION_MAX];
+} population_t;
+```
+
+---
+
+### **Principe**
+
+Pour chaque mois simulés, on va effectuer les opérations suivantes sur chaque lapin : 
+    
+* Anniversaire des lapins
+    * Incrémente l'age du lapin et vérifie s'il passe adulte
+* Definie les mois de portees
+    * Tous les premiers mois d'une année, définit le nombres de portée d'une femelle pour l'année
+* Reproduction
+    * Pour un male et une femelle adultes crée la portée avec le bébés lapins
+* Mort des lapins
+    * Vérifie si le lapin meurt ce mois-ci
+
+
+Afin de débuter la population de lapin, il faut les proteger durant la première année en ne regardant pas s'ils doivent mourrir. Les bébés ayant une faible chance de survie et le premier couple étant des bébés, il faut attendre un certain temps avant l'age de reproduction et la première portée.
 
 ---
 
@@ -224,6 +286,53 @@ La mort du lapin chaque mois est calculée suivant son âge, avec les probabilit
 
 ---
 
-### Résultats 
+### **Résultats**
+
+En lançant la simulation pour 9 ans, (9*12 mois) :   
+*Au premier mois, population initiale*
+```bash
+ Affichage etat de la population
+
+ nbMale : 1
+ nbMaleAdulte : 0
+ nbMaleBebe : 1
+
+ nbFemelle : 1
+ nbFemelleAdulte : 0
+ nbFemelleBebe : 1
+
+ nbAdulte : 0
+ nbBebe : 2
+ nbTotal : 2
+ ```
+
+*A la fin de la simulation*
+```bash
+ Affichage etat de la population
+
+ nbMale : 21829277
+ nbMaleAdulte : 7471098
+ nbMaleBebe : 14358179
+
+ nbFemelle : 21835320
+ nbFemelleAdulte : 7470551
+ nbFemelleBebe : 14364769
+
+ nbAdulte : 14941649
+ nbBebe : 28722948
+ nbTotal : 43664597
+```
+
+---
+### **Pistes d'amélioration**
+
+Nos tableaux contenant les lapins males et femelles ont une taille de 100 000 000. Or au dela de 9 ans de simulation, la population devient supérieure.   
+Nous nous limitons donc à 9 ans de simulation. 
+
+Pour pouvoir simuler sur plus longtemps, il faudrait réequilibrer le ratio naissance/mort :
+* rajouter un système de prédateur afin de réguler la population
+* augmenter le taux de mortalité
+* diminuer le taux de natalité
+* prendre en compte l'age de la lapine dans les calculs du nombre de portées (fréquence et quantité diminués avec l'age)
 
 ---
